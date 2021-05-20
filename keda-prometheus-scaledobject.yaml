@@ -1,4 +1,4 @@
-apiVersion: keda.k8s.io/v1alpha1
+apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
   name: prometheus-scaledobject
@@ -7,9 +7,9 @@ metadata:
     deploymentName: go-prom-app
 spec:
   scaleTargetRef:
-    deploymentName: go-prom-app
-  pollingInterval: 15  # Optional. Default: 30 seconds
-  cooldownPeriod:  30 # Optional. Default: 300 seconds
+    name: go-prom-app
+  pollingInterval: 5  # Optional. Default: 30 seconds
+  cooldownPeriod: 30 # Optional. Default: 300 seconds
   minReplicaCount: 1   # Optional. Default: 0
   maxReplicaCount: 10 # Optional. Default: 100
   triggers:
@@ -18,5 +18,5 @@ spec:
       # Required
       serverAddress: http://prometheus-service.default.svc.cluster.local:9090
       metricName: access_frequency
-      threshold: '3'
+      threshold: '2'
       query: sum(rate(http_requests[2m]))
